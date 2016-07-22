@@ -1,21 +1,51 @@
 <div class="container" ng-controller="TodoCtrl as todo">
     <div class="jumbotron">
-        <h1 align="center">Todo Application</h1>
+        <h1 align="center">Activity Soshace Tracker</h1>
         <br>
         <div id="todo-form" class="row">
             <div class="col-sm-8 col-sm-offset-2 text-center">
-                
+                <input type="text" ng-model="formData.value"></input>
+                <button ng-click="addTodo()" class='btn btn-success'>Add activity</button>
             </div>
         </div>
     </div>
     <div id="todo-list" class="row">
-        <div class="col-sm-4 col-sm-offset-4">
-            <div class="checkbox" ng-repeat="singleTodo in todos">
+        <a class='btn btn-primary' href="/file">Загрузить файл</a>
+        <div class="col-md-6 col-md-offset-4">
+          
+<table class="table">
+    <thead>
+      <tr>
+        <th>Новые задачи</th>
+        <th>Завершенные задачи</th>
+     
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="success">
+        <td>
+            <div class="checkbox" ng-repeat="singleTodo in todos | filter:!isDone | orderBy:singleTodo.id:reverse">
                 <label>
-                    <input type="checkbox" ng-click="todo.removeTodo(singleTodo)">
+                    <input type="checkbox" ng-click="compliteTodo(singleTodo)">
                     {{ singleTodo.value }}
                 </label>
             </div>
-        </div>
+        </td>
+        <td>
+            <div class="panel panel-primary" ng-repeat="singleTodo in todos | filter:isDone | orderBy:singleTodo.id:reverse  | limitTo:5">
+              <div class="panel-body">
+                  {{ singleTodo.value }}
+              </div>
+                  <div class="panel-footer">
+                       Потрачено времени:  {{ timeSpend(singleTodo) | date:"HH:mm:ss"}}
+                  </div>
+                </div>  
+        </td>
+       
+      </tr>
+     
+    </tbody>
+  </table>
+            </div>
     </div>
 </div>
